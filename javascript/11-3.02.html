@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>JavaScript 词法分析 </title>
+		<script type="text/javascript">
+			/**
+			 * 语法分析，
+			 * 分析三样东西
+			 * 
+			 * 第一步：先分析参数
+			 * 第二步：再分析变量声明
+			 * 第三步：分析函数声明
+			 * 
+			 * 一个函数能使用的局部变量，就从上面的三步分析而来
+			 * 
+			 * 具体步骤：
+			 * 
+			 * 0：函数运行前的瞬间，生成 Active Object (活动对象)，下称AO
+			 * 1：把声明的参数，形成AO的属性，值都是 undefined
+			 * 2：分析变量声明 如  var age.
+			 * 	    如果AO上还没有 age 属性 ，则添加AO属性，值为undefind
+			 *   如果AO上已经有 age 属性 ，则不做任何影响
+			 * 
+			 * 3： 分析函数声明，如 function foo(){}
+			 * 	    则把函数赋给AO.foo属性
+			 *   注：如果此前foo属性已经存在，则被无情的覆盖了
+			 * */
+			
+			
+		/*
+		 //例子1：
+			function t(age)
+			{
+				alert(age);
+			}
+			t(5); // 5
+			t() ; // undefined 
+		*/
+		
+		/* 
+		 //例子2
+			function  t2(age)
+			{
+				var age = 99 ;
+				alert(age);
+			}
+			
+			t2(5) ; //99
+			
+		*/	
+			/**
+			 * 分析  
+			 * 1 : AO ： age = undefind
+			 * 2 : 传参  age = 5 ,
+			 * 3 : 执行  age  赋值  99  即  age = 99 
+			 * 4 :  alert(age) 即 alert(99) 
+			 * */
+			
+		/*
+		//例子3 
+		 
+		
+			function  t3(greet)
+			{
+//				var greet = 'hello' ;
+				
+				alert(greet);
+				
+				function greet()
+				{
+					
+				}
+			}
+			
+			
+			t3(null) ;
+		* */
+			/**
+			 * 分析
+			 * AO ：greet = function(){}
+			 * 执行 ： 
+			 * 		赋值： greet = 'hello' ;
+			 * 		alert(greet) 即 alert('hello')
+			 * */
+		
+		//例子 4
+		
+		function a(b)
+		{
+			alert(b);  // function 
+			function b()
+			{
+				alert(b);
+			}
+			b(); //function 
+		}
+		
+		a(1) ;
+		
+		
+		
+		/*
+		 * 函数表达式 
+		 * 只是声明 a 没有声明 函数 , 执行是 a 赋值 一个函数
+		 */
+		var a = function (){} ;
+		
+		/**
+		 * 这是  Jquery 的最外层代码
+		 * (function(window,undefined){ })  这是内层表达式 返回的是函数 ，包在小括号里，当成表达式来执行
+		 *  (function(window,undefined){ })(window)  立即调用
+		 * 
+		 * 而内层函数又没有起名字，成为匿名函数
+		 * 这种手法。匿名函数，立即执行，不污染全程，称之为 立即执行匿名函数表达式
+		 */
+		(function(window,undefined){
+			
+		})(window);
+		
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

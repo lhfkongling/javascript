@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>事件的绑定 与 解绑定 </title>
+		
+		<style type="text/css">
+			p{ text-align: center;}
+			#mood {cursor:pointer;}
+		</style>
+		<script type="text/javascript">
+		
+			window.onload=function(){
+				
+				function $(id){
+					return document.getElementById(id) ;
+				}
+				
+				function cry(){
+					alert('呜呜。我命苦啊');
+				}
+				function la(){
+					alert('哈哈。我开心极了');
+				}
+				
+				/**
+				 * 对象的事件绑定 addEventListener 
+				 * 事件的解绑定 	removeEventListener
+				 * 多个绑定事件的执行先后顺序
+				 * */
+				
+				//按钮监听   -> 操作  
+				
+				/*
+				 
+ 				$('addcry').addEventListener('click',function(ev){
+					$('mood').addEventListener('click',cry, false) ;
+					ev.stopPropagation();
+				},false);
+			
+				$('addla').addEventListener('click',function(ev){
+					$('mood').addEventListener('click',la, false) ;
+					ev.stopPropagation();
+				},false);
+				
+				$('remcry').addEventListener('click',function(ev){
+					$('mood').removeEventListener('click',cry, false) ;
+					ev.stopPropagation();
+				},false);
+				
+				$('remla').addEventListener('click',function(ev){
+					$('mood').removeEventListener('click',la, false) ;
+					ev.stopPropagation();
+				},false);
+				
+				*/
+				
+				
+				
+				/*
+				 * 优化 ： 
+				 * 把监听事件函数做成一个函数 分离出来
+				 * 
+				 * 定义函数方法（独立） 
+				 * 
+				 * 然后 调用方法 
+				 * 
+				 * 这样做到  方法可以重复利用 达到优化  代码的目的 
+				 * 
+				 */
+				
+				//定义方法 
+				function  addEvent (Obj,type,fn,model){Obj.addEventListener(type,fn,model); }
+				function  remEvent (Obj,type,fn,model){Obj.removeEventListener(type,fn,model); }
+				
+				
+				function addcryFn (ev){
+					addEvent($('mood'),'click',cry,false) ;
+					ev.stopPropagation();
+				}
+				
+				function addlaFn (ev){
+					addEvent($('mood'),'click',la,false) ;
+					ev.stopPropagation();
+				}
+				
+				function remcryFn (ev){
+					remEvent($('mood'),'click',cry,false) ;
+					ev.stopPropagation();
+				}
+				
+				function remlaFn (ev){
+					remEvent($('mood'),'click',la,false) ;
+					ev.stopPropagation();
+				}
+				
+				// 调用方法 
+				addEvent($('addcry'),'click',addcryFn,false) ;
+				addEvent($('addla'),'click',addlaFn,false) ;
+				addEvent($('remcry'),'click',remcryFn,false) ;
+				addEvent($('remla'),'click',remlaFn,false) ;
+
+				
+			
+				
+			};
+		</script>
+	</head>
+	<body>
+		
+		
+		
+		<p>
+			<input type="button" value="让你哭" id="addcry"  />
+			<input type="button" value="让你笑" id="addla"  />
+			<input type="button" value="你别哭" id="remcry"  />
+			<input type="button" value="你别笑" id="remla"  />
+			
+		</p>
+		
+		<p id="mood"> 我现在的心情是？？ 点我看看</p>
+		
+		
+	</body>
+</html>

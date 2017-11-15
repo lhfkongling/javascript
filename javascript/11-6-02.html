@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>原型继承的三种方式  </title>
+	</head>
+	<script type="text/javascript">
+		
+		function Cat (legs,eyes){
+			this.legs = legs ;
+			
+			this.eyes = eyes;
+			
+			this.body = function (){
+				alert('我有条'+legs+'腿，'+eyes+'只眼睛');
+			}
+		}
+		
+		var bosi =  new Cat(4,2);
+//		bosi.body();
+		/*
+		 * 普通正常继承
+		 * 通过属性 prototype  
+		 * 
+		 */
+		
+		
+		function Pig (){
+			this.say = function(){
+				alert('我能吃能喝能睡觉');
+			}
+		}
+		Pig.prototype = new Cat(2,1);
+		
+		var kk = new Pig();
+//		
+//		kk.body();
+//		kk.say();
+		
+		/*
+		 * 原型冒充 
+		 * 
+		 */
+		
+		function Tiger(legs,eyes,eat){
+			
+			this.parent = Cat;
+			
+			this.parent.apply(this,arguments);
+			
+			delete this.parent ;
+			
+			this.food = function(){
+				alert('我能吃'+eat);
+			}
+			
+		}
+		
+		huzi = new Tiger(3,1,'鲍鱼');
+//		huzi.body();
+//		huzi.food();
+		console.log(huzi);
+		
+		
+		/**
+		 * 复制继承
+		 * 通过 extend 把传过来的对象属性 复制进来 
+		 * */
+		
+		function Dog (ability){
+			
+			this.ability = ability;
+			
+			this.skill = function (){
+				alert('我会'+this.ability) ;
+			}
+			
+			this.extend = function(parent){
+				for(var key in parent){
+					this[key] = parent[key];
+				}
+			}
+
+		}
+		
+		var  zz = new Dog('看羊群') ;
+		
+		zz.extend(new Cat(4,2));
+		
+		zz.extend(new Tiger(8,4,'老鼠'));
+		
+//		zz.food();
+//		zz.body();
+//		zz.skill();
+		
+		console.log(zz);
+		
+		/*
+		 * 静态方法 
+		 * 可以直接调用 
+		 * 对象里面的属相方法 需要 new 之后才能够调用 
+		 */
+		
+		Dog.fly = function(){
+			alert('我学会︿(￣︶￣)︿了');
+		}
+		
+		Dog.fly();
+		
+		Dog.skill();
+		
+	</script>
+	<body>
+	</body>
+</html>

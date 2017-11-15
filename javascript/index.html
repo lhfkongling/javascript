@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>js 闭包</title>
+		<script type="text/javascript">
+			
+			/*
+			function counter(){
+				var cnt = 0 ;
+				var cnter = function (){
+					return ++ cnt;
+				}
+				return cnter ;
+			}
+			var inc = counter();
+			*/
+			
+			
+			//javascript 命名空间 
+			var mz = {};
+			mz.inc = (function(){
+				var cnt = 0 ;				
+				return function (){
+					return ++cnt ;
+				}
+			})();
+
+//			 alert(mz.inc()) ;
+//			 alert(mz.inc()) ;
+//			 alert(mz.inc()) ;
+//			
+//			function closure()
+//			{
+//				var sister = '大桃花';
+//				
+//				var me = function()
+//				{
+//					alert(sister);
+//				}
+//				
+//				return me ;
+//			}
+//			
+//			function  place()
+//			{
+//				var sister = '大福晋';
+//				
+//				var girl = closure();
+//				
+//				girl();
+//			}
+//			
+//			place();
+			
+		</script>
+		
+	</head>
+	<body>
+		<a href="javascript:history.back()">返回上级</a>
+	</body>
+</html>

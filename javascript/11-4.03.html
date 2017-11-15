@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>javascript 原型链</title>
+		<script type="text/javascript">
+			
+			//给所有原型添加属性
+			Object.prototype.sing = function (){
+				alert('我会唱歌');
+			}
+			
+			function tiger(){
+				this.bark = function (){
+					alert('我的百兽之王');
+				}
+			}
+			
+		
+			
+			function cat (){
+				this.climb = function(){
+					alert('我会爬树');
+				}
+			}
+			
+			//老虎对象继承猫的对象
+			tiger.prototype = new cat() ;
+			
+			var hu = new tiger();
+			var  bosi = new cat() ;
+			
+			console.log(hu) ;
+//			
+			hu.sing();
+//			bosi.climb();
+//			hu.climb();
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

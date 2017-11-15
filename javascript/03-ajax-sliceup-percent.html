@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>03-ajax-sliceup 大文件数据切割上传</title>
+
+<script type="text/javascript">
+ /*
+ 用到的API 
+ file --> 继承自 --> Blob
+ Blob 有 slice 方法 可以截取二进制对象的一部分
+ 
+ 思路：
+ 截取5M ,上传 
+ 判断文件有没有截取完毕
+ 
+ 定时器 ，不断调用上传方法
+ 
+ */
+
+var xhr = new XMLHttpRequest(); 
+ 
+var clock = null;
+ //触发执行定时器
+function fire(){
+	 clock = window.setInterval(sendfile,1000);
+}
+
+/*
+ 闭包计数器 
+ 要不要发送
+ 要发送哪一块呢
+*/
+var sendfile = (function(){
+	
+	const LENGTH = 2 * 1024 * 1024 ; //每次切数量 2M 
+	var sta 	= 0 ;
+	var percent = 0 ;
+	var ended 	= sta + LENGTH ;	
+	var sending = false ; //标志上一块是否在发送中 
+	var blob 	= null ;	 
+	var fd 		= null;
+	//上面定义的变量  只能由下面的函数改变
+	
+	//返回闭包函数结果
+	return  (function (){
+		//如果上传中 返回
+		if(sending == true ){
+			 return ;
+		}
+		//获取上传文件 
+		var filename = document.getElementById("file").files[0];
+		
+		//如果 sta > filename.size ,就结束了 
+		if(sta > filename.size){
+			clearInterval(clock); //清理定时器
+			return ;
+		}
+		var index1 = filename.name.lastIndexOf('.');
+		var index2 = filename.name.length;
+		var suffix = filename.name.substring(index1+1,index2);
+		
+		blob = filename.slice(sta,ended);  //截取
+		fd = new FormData(); //创建formData 对象 
+		fd.append('part',blob); //打包 
+		fd.append('suffix',suffix); //打包 
+		fd.append('rename',1); //打包 
+		fd.append('name',filename.name); //打包 
+		
+		up(fd); //上传发送 作为一个函数独立出来 
+		
+		sta 	= ended ; //重置开始位置
+		ended 	= sta + LENGTH ; //重置结束位置
+		sending = false ; //上传完了
+		
+		percent = parseInt(ended / filename.size * 100  )  ;
+		
+		if(percent > 100)  percent = 100 ;
+		 
+		document.getElementById("speed").style.width = percent +'%' ;
+		document.getElementById("speed").innerHTML = percent +'%'  ;
+		console.log(percent);
+	})
+})();
+ //上传
+function up(fd){
+	xhr.open("POST","03-ajax-sliceup.php",true);
+	xhr.send(fd);
+}
+ 
+
+</script>
+<style>
+#progress{ width:200px; height:20px; border:1px solid #060;}
+#speed { width:0%; height:100%; background:#060; text-align:center; color:#f00;}
+
+</style>
+
+</head>
+
+<body>
+<h3>HTML5 ajax 大文件数据切割上传 + 上传进度图</h3>
+<br /><br /><br />
+
+<div id="progress"><div id="speed"></div>
+
+<br /><br /><br />
+<input type="file" id="file" onchange="fire()" /> 
+
+
+
+<br /><br /><br />
+
+<div id="debug"></div>
+
+</body>
+</html>

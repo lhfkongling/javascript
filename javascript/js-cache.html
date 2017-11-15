@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>JS 返回上级瞄点 </title>
+		<style type="text/css">
+			ul li { line-height: 100px;}
+			ul li  a {cursor:pointer;}
+		</style>
+		<script type="text/javascript" src="js/jquery-1.10.2.min.js"> </script>
+		<script type="text/javascript" src="js/jquery.cookie.js"> </script>
+		<script type="text/javascript">
+			$(function(){
+				//定义命名空间
+				var mz={};
+				
+//				加载内容闭包
+				mz.lis = (function(){
+					var i = 0 ; 
+					return function(){
+						$('ul').append('<li><a id="k'+i+'" data-number="'+i+'" data-href="index.html"> 跳转连接 '+i+'</a></li>') ;
+						i++;
+						$.cookie('count' , i) ; 
+					}
+				})();
+				
+				//使用函数表达式  去除 i 的全局污染
+				mz.load = function (count){
+					var i = 0 ;
+					if( count != undefined){
+						for(var i = 0; i < count ;i++ ){
+							mz.lis(); 
+						}
+					}
+				}
+				
+				//重新加载之前手动点击加载的内容
+				mz.load($.cookie('count') );
+ 
+				//如果有瞄点 跳转到瞄点（返回上级跳转到之前点击的位置）
+				if( $.cookie('cnt') != undefined ){
+					location.href = '#k'+ $.cookie('cnt')  ;
+				}
+				
+				//手动点击加载
+				$('#btn').bind('click',function(){
+					mz.lis(); 
+				})
+				
+				//连接跳转前做好瞄点记录
+				$('ul').delegate('a', 'click',function(){
+					$.cookie('cnt' , $(this).attr('data-number')) ; 
+					location.href = $(this).attr('data-href')  ;
+				})
+				
+			})
+		</script>
+		
+	</head>
+	<body>
+		<button id="btn">加载</button>
+		<ul>
+			
+		</ul>
+		
+		
+	</body>
+</html>

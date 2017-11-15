@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript">
+			
+			
+			
+//			var str1 = 'global';
+//			
+//			function t1()
+//			{
+//				console.log(str1);
+//				console.log(str2);
+//				
+//				var str2 = 'local';
+//			}
+//			
+//			t1();
+//			
+			function t1()
+			{
+				var d ;
+				function t2()
+				{
+					d = 5;					
+					e = 6 ;
+				}
+				t2();
+			}
+			
+			t1();
+			
+			console.log(e);
+			
+			console.log(window.d);
+			
+			/**
+			 * 分析：
+			 * 1；返回三种情况 定义赋值的变量  
+			 * 2： undefind   
+			 * 3:报错  变量 is  not defind (变量还没有定义);
+			 * 4: 变量 定义 查找 ，从运行的地方 由内向外 查找  直到找到 window 为止 
+			 * */
+			
+			
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

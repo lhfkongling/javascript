@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>js 原生态AJAX</title>
+
+<script type="text/javascript">
+ 
+//创建 AJAX 函数 
+function xhrNewobject (){
+	if(window.ActiveAObject){
+		try
+		{
+			//适用于 IE5 IE 6
+			return new ActiveXObject("Microsoft.XMLHTTP");	
+		}
+		catch(e)
+		{
+			return new ActiveXObject("Msxml2.XMLHTTP");
+		}
+			
+	}
+	if(window.XMLHttpRequest)
+	{
+		return new XMLHttpRequest();	
+	}
+	else
+	{
+		alert('对不起，您的浏览器不支持AJAX应用。')	
+	}
+}
+//创建AJAX 对象
+xhr = xhrNewobject();
+
+
+//Ajax 状态监听
+function watchChange(){
+	if(xhr.readyState == 4  && xhr.status == 200){
+		console.log('回调');
+		console.log(xhr.responseText);
+		document.getElementById("debug").innerHTML=xhr.responseText;	
+	}
+	
+}
+//Ajax 发送函数
+function send(){
+	//打开连接
+	xhr.open("POST","01-ajax-js.php",true);
+	//设置头信息 
+	xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+//	xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	//返回结果时间
+	xhr.onreadystatechange = watchChange ;
+	
+	//发送信息
+	xhr.send("id=12&name=Lhf");
+	
+	console.log('发送信息');
+}
+
+//console.log(xhr); 
+
+</script>
+<style>
+
+</style>
+
+</head>
+
+<body>
+
+<input type="button" onclick="send()" value="Ajax 发送" />
+<div id="debug"></div>
+</body>
+</html>

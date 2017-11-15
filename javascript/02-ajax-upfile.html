@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>02-html5-ajax-upfile</title>
+
+<script type="text/javascript">
+ 
+//创建 AJAX 函数 
+function xhrNewobject (){
+	if(window.ActiveAObject){
+		try
+		{
+			//适用于 IE5 IE 6
+			return new ActiveXObject("Microsoft.XMLHTTP");	
+		}
+		catch(e)
+		{
+			return new ActiveXObject("Msxml2.XMLHTTP");
+		}
+			
+	}
+	if(window.XMLHttpRequest)
+	{
+		return new XMLHttpRequest();	
+	}
+	else
+	{
+		alert('对不起，您的浏览器不支持AJAX应用。')	
+	}
+}
+//创建AJAX 对象
+xhr = xhrNewobject();
+
+//Ajax 状态监听
+function watchChange(){
+	if(xhr.readyState == 4  && xhr.status == 200){
+		console.log('回调');
+		console.log(xhr.responseText);
+		document.getElementById("debug").innerHTML=xhr.responseText;	
+	}
+	
+}
+
+function uploadfailded(evt){
+	alert("上传失败");	
+}
+
+//侦听文件上传情况
+function onprogress(evt){
+	console.log(evt) ;
+	var per = Math.floor(100*evt.loaded / evt.total );
+	console.log(evt) ;
+	 document.getElementById("speed").style.width = per +'%' ;
+	 document.getElementById("speed").innerHTML=per +'%'  ;
+}
+
+
+//发送文件
+function sendFile(){
+	
+	var file = document.getElementById("file").files[0];
+	
+	console.log(file);
+	
+	var index1=file.name.lastIndexOf(".");
+	var index2=file.name.length;
+	var suffix=file.name.substring(index1+1,index2);//后缀名
+	
+	var formData = new FormData();
+	formData.append("file",file); //包装文件
+	formData.append("suffix",suffix);//包装后缀名
+	formData.append("rename",1); //重命名 1为重名，0为使用原来的名称
+	
+	
+	//打开连接
+	xhr.open("POST","02-ajax-upfile.php",true);
+	
+	//监听上传过程事件
+	xhr.upload.addEventListener("progress",onprogress,false);
+	//监听失败请求
+	xhr.addEventListener("error",uploadfailded,false);
+	
+	//返回结果时间
+	xhr.onreadystatechange = watchChange ;
+	
+	//发送信息
+	xhr.send(formData);
+	
+	//console.log(formData);
+	console.log('发送文件');
+}
+
+//console.log(xhr); 
+
+</script>
+<style>
+#progress{ width:200px; height:8px; border:1px solid #060;}
+#speed { width:0%; height:100%; background:#060; text-align:center; color:#f00;}
+
+</style>
+
+</head>
+
+<body>
+<input type="button" onclick="send()" value="Ajax 发送" />
+<br /><br /><br />
+<input type="file" id="file" onchange="sendFile()" /> 
+
+<br /><br /><br />
+
+<div id="progress"><div id="speed"></div>
+
+
+<br /><br /><br />
+
+<div id="debug"></div>
+
+</body>
+</html>

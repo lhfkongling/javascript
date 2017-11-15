@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>原型链</title>
+	</head>
+	<script type="text/javascript">
+		/**
+		 * 给所有的对象继承添加一个 sing 属性 
+		 * */
+		Object.prototype.sing = function (){
+			alert('我在书上等你哦 ');
+		}
+		
+		function tiger (){
+			this.say = function(){
+				alert('我是百兽之王');
+			}
+		}
+		
+		function  cat (){
+			this.clumb = function (){
+				alert('我会爬树') ;
+			}
+		}
+		/**
+		 * tiger对象  通过 prototype  继承 cat 对象  
+		 * hnh =new tiger  后 ，hnh 继承具有了 cat 对象的属性 
+		 * */
+		tiger.prototype = new cat();
+		
+		tiger.prototype.clumb = function(){ alert('我现在受了伤，暂时不会爬树了');} 
+		
+		var  hnh = new tiger();
+		
+		
+		hnh.say();
+		hnh.clumb() ;
+		hnh.sing();
+		
+		//删除属性
+		delete tiger.prototype.clumb ;
+		
+		var dbh = new tiger();
+		//dbh.clumb() ;  删除后 不存在了，如果调用就会保存
+		
+		var bosi = new cat();
+		bosi.clumb();
+		
+		console.log(hnh) ;
+	</script>
+	<body>
+	</body>
+</html>

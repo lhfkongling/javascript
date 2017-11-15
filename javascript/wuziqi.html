@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>五子棋 Javascript 编程法</title>
+		<style type="text/css">
+			h3 { 
+				text-align: center; 
+				line-height: 50px;
+			}
+			.content { width: 600px; height: 600px; 
+					background: url(./img/bg.jpg) no-repeat; 
+					background-size: 100% 100%;
+					padding: 0px;
+					margin: 0 auto;
+			}
+			table { 
+				width: 100%;
+			}		
+			table tr td {  
+				border: none;
+				height: 40px; 
+				width: 40px;
+				display: inline-block;
+			}
+			.write { 
+				background: url(./img/write.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			.brack { 
+				background: url(./img/brack.png) no-repeat;
+				background-size: 100% 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<!--
+		五子棋网络版
+		功能需求：
+			1.房间分割 ，多人同时在线玩   ，
+			2.黑白棋手 下棋 
+			3.时间限制
+			4.围观群众 
+		-->
+		
+		<h3 >JS 五子棋 游戏 </h3>
+		<div class="content">	
+		<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>				
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+		
+		
+		<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+				/*
+				 * 思路：
+				 * 1 html  css 样式
+				 * 2 获取 td 对象 点击添加棋子 ，做黑白棋子轮流添加 处理
+				 * 3 判断 td 对象是否已经有棋子了，
+				 * 4 胜负判断{ 横 竖 左斜  右斜 } 连续五子
+				 * 根据坐标值  
+				 * 横： 竖坐标不变，横坐标 连续5个 
+				 * 竖： 横坐标不变，竖坐标连续5个
+				 * 左斜:
+				 * 右斜
+				 * 5 循环所有的 td ，根据四条规则 保存已有的棋子
+				 * 6 判断胜负 
+				 * 7 胜负已分 ，下棋结束
+				 * 
+				 * */
+				
+				var  mz = {} ;
+				
+				window.onload=function(){
+					
+					var tdObj = document.getElementsByTagName('td') ;
+					
+					var  tdClick = (function (){
+						//黑色棋子是否走
+						var b = true;
+						//棋盘是否结束
+						var win = false ; 
+						
+	//					// 
+						/*
+						 * 判断棋盘棋子状态
+						 * 空：0
+						 * 白：1
+						 * 黑：2
+						 * */
+						var checkCoordinate = function(tdObj){
+							if( tdObj.hasClass('brack') ){
+									return '2';
+								}else if( tdObj.hasClass('write') ){
+									return '1';
+								}else{
+									return '0';
+								}
+						}
+						
+						return function(){
+							
+							var  td = $(this) ;
+							
+	//						判断棋盘是否结束
+							if(win == true){
+								alert('已经分出胜负来了');
+								return;
+							}
+							
+							//判断是否已经有棋子了
+							if(td.hasClass('brack') || td.hasClass('write')){
+								alert ('已经有棋子了');
+								return ;
+							}
+							
+							//判断下黑白棋子
+							if(b == true){
+								td.addClass('brack') ;
+								b = false ;
+							}else{
+								td.addClass('write') ;
+								b = true ;
+							}
+	
+							/* 记录棋盘状态 数字化
+							 * 横：a  竖坐标不变，横坐标 连续5个 
+							 * 竖： b 横坐标不变，竖坐标连续5个
+							 * 左斜: c
+							 * 右斜: d 
+							 * */
+							mz.piece = {a:'',b:'',c:'',d:''} ;
+							
+							//点击对象的坐标 
+							mz.dd = {X: $(this).index() ,Y: $(this).parent().index() } 
+							
+							for (var i = 0 ; i<tdObj.length; i++ )
+							{
+								//循环比对的所有坐标
+								var zb = {X: $(tdObj[i]).index() ,Y:$(tdObj[i]).parent().index()}  
+	 
+								//横坐标 
+								if(zb.Y  ==  mz.dd.Y ){ 
+									mz.piece.a += checkCoordinate( $( tdObj[i] ) ) ; 
+								}
+								//纵坐标
+								if(zb.X  == mz.dd.X ){ 
+									mz.piece.b += checkCoordinate($(tdObj[i])) ; 
+								}
+								//左斜线
+								if( (zb.X -mz.dd.X)   == (zb.Y -mz.dd.Y) ){ 
+									mz.piece.c += checkCoordinate($(tdObj[i])) ; 
+								}
+								//右斜线
+								if( (zb.X+zb.Y)  == (mz.dd.X+mz.dd.Y) ){ 
+									mz.piece.d += checkCoordinate($(tdObj[i])) ; 
+								} 
+							}
+							/**
+							 * 判断棋盘胜负
+							 * 
+							 * */
+							$.each(mz.piece,function(k,v){
+								if( v.indexOf('11111') > -1 ){
+									alert('白棋赢了');
+									win = true;
+								}
+								if( v.indexOf('22222') > -1){
+									alert('黑棋赢了');
+									win = true;
+								} 
+							})
+						}
+					})();
+	
+					for (var i = 0 ; i<tdObj.length;i++ ){
+						tdObj[i].addEventListener('click',tdClick,false) ;
+					}
+	//				
+				}
+			</script>
+		
+	</body>
+</html>

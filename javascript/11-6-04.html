@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>冒泡与捕捉</title>
+		<style type="text/css">
+			#china {
+				width: 600px;
+				height: 600px;
+			}
+			div{ 
+				width: 60%;
+				height: 60%;
+				border:1px solid blue;
+				margin: 10% auto 0; }
+		</style>
+		
+		<script type="text/javascript">
+			window.onload=function(){
+				function $(id){
+					return document.getElementById(id) ;
+				}
+				
+				/**
+				 * DOM 对象 .addEventListener('click',function(){},false) ;
+				 * 参数 false 为 冒泡 ： 由内向外扩张
+				 * 参数 true 为 捕捉 ： 由外向内收缩
+				 * */
+				
+				
+				$('china').addEventListener('click',function(ev){
+					alert('中国') ;
+					ev.stopPropagation();
+				},false);
+				$('gd').addEventListener('click',function(ev){
+					alert('广东') ;
+					ev.stopPropagation();
+				},false);
+				$('sz').addEventListener('click',function(ev){
+					alert('深圳') ;
+					ev.stopPropagation()
+				},false);
+				$('nabshan').addEventListener('click',function(ev){
+					alert('南山') ;
+					ev.stopPropagation();
+				},false);
+				
+				
+				/*
+				 * 表单阻住提交
+				 * ev.preventDefault();
+				 * 
+				 */
+				
+				$('fm').addEventListener('submit',function(ev){
+					if($('age').value == ''){
+						alert ('age内容不能为空 ');
+						
+						ev.preventDefault();
+					}
+					
+				},false)
+				
+			}
+		</script>
+	</head>
+	<body>
+		
+		
+		<form action="" id="fm" method="get">
+			<input type="text" id="age" name="age" value="" />
+			<input type="submit" id="btnSub" value="提交" /> 
+			
+		</form>
+		
+		<div id="china">
+		中国
+		<div id="gd">
+			广东
+			<div id="sz">
+				深圳
+				<div id="nabshan">南山</div>
+					
+				
+			</div>
+		</div>
+		</div>
+		
+	</body>
+</html>

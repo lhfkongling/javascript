@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>AWS S3 文件上传案例</title>
+		<script type="text/javascript" src="js/jquery-1.10.2.min.js" ></script>
+		<script type="text/javascript" src="js/aws-sdk.min.js" ></script>
+		<script type="text/javascript" src="js/uploadS3.js" ></script>
+		<script type="text/javascript">
+		$(function(){
+			
+			//文件大于  5M 自动分片上传 
+			
+			var button = document.getElementById('upload-button');
+		 	button.addEventListener('click', function() {
+		 		var a = awsUpload.upload('oneFile', callback, success,2);
+		 	});
+		 
+		 	function callback(total, load){
+		 		awsUpload.getElement('load').innerHTML = load*100/total + '%';
+		 	}
+		 	
+		 	function success(err, data, urls,objName){
+		 		
+		 		if( err ){
+		 			alert('错啦')
+		 		}else{
+		 			console.log('保存路径：'+urls.partUrl);
+		 			console.log('访问路径：'+urls.totalUrl);
+		 			$('#uploadUrl').val(urls.partUrl);
+		 		}
+		 	}
+		})	
+		</script>
+		
+	</head>
+	<body>
+		
+		<div >
+			文件上传：--上传百分比  --<span id="load"> </span>
+			<br /><br />
+			<input type="file" name="oneFile" id="oneFile" /> 
+			<input type="button" id="upload-button" value="上传"   />
+			保存路径：<input type="text" id="uploadUrl" value="" /> 
+		</div>
+		
+		
+		
+	</body>
+</html>

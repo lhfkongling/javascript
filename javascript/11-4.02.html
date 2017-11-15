@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<ul>
+			<li>春</li>
+			<li>夏</li>
+			<li>秋</li>
+			<li>冬</li>
+		</ul>
+		
+	<script type="text/javascript">
+		for (var i =0,lis=document.getElementsByTagName('li'),len=lis.length;i<len;i++) {
+			lis[i].num = i;
+			lis[i].onclick=function(){
+				alert(this.num);
+			}
+			
+		}
+		
+		
+		var num = (function(){
+			var cnt = 0 ;
+			return function(){
+				return ++cnt; 
+			}	
+		})();
+		
+		console.log(num) ;
+		console.log(num()) ;
+		console.log(num()) ;
+		
+	</script>
+		
+	</body>
+</html>

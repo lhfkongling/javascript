@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>事件绑定的三种方法</title>
+
+		<style type="text/css">
+			div { 
+				width: 200px; 
+				height: 200px; 
+				margin: 10px;
+				float:left;
+				background: green;}
+		</style>
+		<script type="text/javascript">
+			
+			function fn(){
+				alert('这是第一种绑定方式');
+				console.log(this); 
+			}
+				
+			
+			window.onload = function(){
+				
+				
+//				第二种 绑定方式
+				document.getElementById('text').onclick =function(ev){
+					/*
+					 * ev 为 事件触发时 监听到的相关参数信息
+					 * 可以对 这些参数进行操作 
+					 * this 指向对象本身 
+					 */
+					alert('第二种 绑定方式 你点我了哦');
+					console.log(ev);
+					console.log(this);
+				}
+				
+//				第三种绑定方式 事件监听   W3C 标准  注意 IE 兼容 
+				document.getElementById('tree').addEventListener('click',function(ev){
+					alert('第三种绑定方式 事件监听  你点我了哦');
+					console.log(ev);
+					console.log(this);
+				})
+				
+			}
+		</script>
+		
+	</head>
+	<body>
+		
+		<div onclick="fn();"></div>
+		
+		<div id="text"></div>
+		
+		<div id="tree"></div>
+		
+	</body>
+</html>
