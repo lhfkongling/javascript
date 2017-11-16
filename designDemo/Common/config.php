@@ -5,4 +5,3 @@
 		'DB_PASSWORD'=>'root',
 		'DB_NAME'=>'test',
 	);
-?>

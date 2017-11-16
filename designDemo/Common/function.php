@@ -17,6 +17,7 @@ function pr($name=null){
  * @param $file 文件路径
  * */
 function load_config($file=null,$parse=''){
+    
 	$ext = pathinfo($file,PATHINFO_EXTENSION);
 	
 	switch($ext){
@@ -79,8 +80,5 @@ $autoload_func = function($class){
     $file_name = PATH ."/Library/" .$class . ".class.php" ;
     include $file_name;
 }
-
-
-
 
 ?>

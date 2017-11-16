@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>JS  观察者切换页面风格</title>
+	</head>
+	<style type="text/css">
+		body { 
+			max-width: 800px; 
+			margin: 0 auto;}
+		header { 
+			line-height: 80px; 
+			color:white; 
+			text-align: center;}
+		div { 
+			margin: 20px 0; 
+			line-height: 80px;
+			height: 200px; 
+			text-align: center;}
+		footer { 
+			line-height: 30px; 
+			color:white; 
+			text-align: center;}
+		span{
+			display: block;
+			margin: 10px 0;
+		}
+		#observers a { margin: 0 10px; cursor:pointer;}
+		
+	/*  初始化  默认 红色风格 */
+		header.red { background: red;}
+		div.red { border:5px solid red;}
+		footer.red { background: red;}
+		
+		header.green { background: green;}
+		div.green { border:5px solid green;}
+		footer.green { background: green;}
+		
+		header.blue { background: blue;}
+		div.blue { border:5px solid blue;}
+		footer.blue { background: blue;}
+		
+		header.brown { background: brown;}
+		div.brown { border:5px solid brown;}
+		footer.brown { background: brown;}
+	
+
+	</style>
+	<body>
+		
+		<span>
+			
+			风格切换：
+			<select id="changer">
+				<option value="red">红色风格</option>
+				<option value="green">绿色风格</option>
+				<option value="blue">蓝色风格</option>
+				<option value="brown">brown风格</option>
+			</select>
+			
+			添加观察者:
+			<select id="attach">
+				<option value="header">头部</option>
+				<option value="div">内容</option>
+				<option value="footer">底部</option>
+			</select>
+			
+		</span>
+		<!--观察者列表有多少-->
+		<span id="observers">
+			
+		</span>
+		
+		
+		<header class="red">头部</header>
+		
+		<div class="red">red 风格 </div>
+		
+		<footer class="red">底部</footer>
+		
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			/**
+			 * 观察者模式
+			 * 1 有角色 N多个观察者 和 一个被观察者 
+			 * 2 观察者可以添加 和 删除
+			 * 3.观察者 带有 相同属性方法 被观察者变动时执行，使自身发生相应的变化
+			 * 
+			 * 4 代码解耦 即 新添加观察者 不需要修改之前的代码 
+			 * 
+			 * */
+			//声明空间变量对象
+			var mz = {};
+			
+			console.log('text' ) ;
+			
+			$(function(){
+				//服务端  逻辑代码 
+				
+				//被观察者
+				mz.sel = $('#changer')[0] ;
+				//被观察者收集观察者信息
+				mz.sel.Observers = {};
+				//添加观察者到观察者
+				mz.sel.attach = function(key,obj){
+					mz.sel.Observers[key] = obj ; 
+				}
+				//移除观察者
+				mz.sel.detach=function(key){
+					delete mz.sel.Observers[key];
+				}
+				/*
+				 * 当被观察者发生变化时
+				 * 循环所有观察者 并执行 他的update 方法
+				 */
+				mz.sel.onchange = mz.sel.modify=function(){
+					console.log( this.Observers ) ;
+					for(var key in this.Observers){
+						this.Observers[key].update(this);
+					}					
+				}
+				
+				
+				//客户端版  自由添加修改代码
+				
+				//header 观察者  update 属性方法
+				mz.header = $('header')[0] ;
+				mz.header.update = function (sel){
+					if(sel.value == 'red'){
+						$(this).css('background','red').html('red 风格');
+					}else if(sel.value == 'green'){
+						$(this).css('background','green').html('green 风格');
+					}
+					else if(sel.value == 'blue'){
+						$(this).css('background','blue').html('blue 风格');
+					}
+					else if(sel.value == 'brown'){
+						$(this).css('background','brown').html('brown 风格');
+					}
+				}				
+				mz.sel.attach('header',mz.header) ;
+				
+				//把div 内容设置为观察者 添加进 被观察者的 Observers 列表 中
+				mz.div = $('div')[0] ;
+				mz.div.update = function (sel){
+					if(sel.value == 'red'){
+						$(this).css('border','5px solid red').html('red 风格');
+					}else if(sel.value == 'green'){
+						$(this).css('border','5px solid green').html('green 风格');
+					}
+					else if(sel.value == 'blue'){
+						$(this).css('border','5px solid blue').html('blue 风格');
+					}
+					else if(sel.value == 'brown'){
+						$(this).css('border','5px solid brown').html('brown 风格');
+					}
+				}				
+				mz.sel.attach('div',mz.div) ;
+				
+				//footer 观察者  update 属性方法
+				mz.footer = $('footer')[0] ;
+				mz.footer.update = function (sel){
+					if(sel.value == 'red'){
+						$(this).css('background','red').html('red 风格');
+					}else if(sel.value == 'green'){
+						$(this).css('background','green').html('green 风格');
+					}
+					else if(sel.value == 'blue'){
+						$(this).css('background','blue').html('blue 风格');
+					}
+					else if(sel.value == 'brown'){
+						$(this).css('background','brown').html('brown 风格');
+					}
+				}				
+				mz.sel.attach('footer',mz.footer) ;
+
+				console.log(mz.header ) ;
+				
+				//获取观察者列表 并显示出来 
+				function getObserver(){
+					$('#observers').html('');
+					for (var key in mz.sel.Observers){
+						$('#observers').append('<a title="删除">'+key+'</a>')
+					}
+				}		
+				getObserver() ;
+				
+				//移除观察者
+				$('#observers').delegate('a','click',function(){
+					mz.sel.detach($(this).html());
+					$(this).remove();
+				})
+				
+				//添加观察者
+				$('#attach').change(function(){
+					var obj = $(this).val();
+					mz.sel.attach(obj,$(obj)[0]);
+					getObserver() ;
+				})
+				
+				/*
+				$('#changer').bind('change',function(){
+					remove_srtle();
+					adds_tyle( $(this).val() ) ;
+				})
+				
+				function remove_srtle(){
+					$('header').removeClass('red');
+					$('div').removeClass('red');
+					$('footer').removeClass('red');
+					
+					$('header').removeClass('green');
+					$('div').removeClass('green');
+					$('footer').removeClass('green');
+					
+					$('header').removeClass('blue');
+					$('div').removeClass('blue');
+					$('footer').removeClass('blue');
+					
+					$('header').removeClass('brown');
+					$('div').removeClass('brown');
+					$('footer').removeClass('brown');
+				}
+				
+				function adds_tyle(c){
+
+					$('header').addClass(c);
+					$('div').addClass(c);
+					$('footer').addClass(c);					
+				}
+				
+				*/
+			})
+		</script>
+	</body>
+</html>
