@@ -4,13 +4,19 @@
 /**
  * FUNCTION pr
  * 打印输出参数
+ * @param $name 
  */
-function pr($arr){
+function pr($name=null){
 	echo '<pre>';
-	print_r($arr);
+	print_r($name);
 	echo '</pre>';
 }
-function load_config($file,$parse=''){
+/**
+ * FUNCTION load_config
+ * 加载配置文件
+ * @param $file 文件路径
+ * */
+function load_config($file=null,$parse=''){
 	$ext = pathinfo($file,PATHINFO_EXTENSION);
 	
 	switch($ext){
@@ -63,4 +69,18 @@ function C($key=null,$val=null,$default=null){
 	}
 	return null;
 }
+
+/**
+ * 注册自动加载函数
+ * 
+ * */
+$autoload_func = function($class){
+    $class = str_replace("\\" , "/" , $class);
+    $file_name = PATH ."/Library/" .$class . ".class.php" ;
+    include $file_name;
+}
+
+
+
+
 ?>
